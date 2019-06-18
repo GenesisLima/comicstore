@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"       
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+	<h:body>
+<!-- 		<div> -->
+<!-- 			<h:outputFormat value="#{msg.usuarios_bemVindo}">  				  				 -->
+<!--   				<f:param value="#{currentUser.get().email}" /> -->
+<!-- 			</h:outputFormat>			 -->
+<!-- 		</div> -->
+		<h:messages id="messages"/>
+		<h:dataTable value="#{adminListComicsBean.comics}" var="comic">
+			<h:column>
+				<f:facet name="header">Titulo</f:facet>
+				#{comic.title}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Número de páginas</f:facet>
+				#{comic.numberOfPages}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Autores</f:facet>
+				<ui:repeat var="author" value="#{comic.authors}">
+					#{author.name}|					
+				</ui:repeat>
+			</h:column>
+<!-- 			<h:column> -->
+<!-- 				<f:facet name="header">Sumário</f:facet>				 -->
+<!-- 				<h:outputLink value="#{comic.summaryPath}">#{book.summaryPath}</h:outputLink>							 -->
+<!-- 			</h:column> -->
+			<h:column>
+				<f:facet name="header">Atualizar</f:facet>
+				<h:form>				
+					<h:commandButton action="#{adminBooksBean.update(comic.id)}" value="Atualizar" />
+				</h:form>							
+			</h:column>
+		</h:dataTable>
+	</h:body>
+</html>

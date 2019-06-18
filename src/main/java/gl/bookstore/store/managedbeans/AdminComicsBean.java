@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import gl.bookstore.store.dao.AuthorDAO;
@@ -25,12 +27,17 @@ public class AdminComicsBean {
 	@Inject
 	private ComicDAO comicDAO;
 	
-	public void save() {
+	
+	public String save() {
 		populateBookAuthor();
 		System.out.println("Saving "+product.getTitle()+" book!");
 		comicDAO.save(product);
 		clearObjects();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		facesContext.getExternalContext().getFlash().setKeepMessages(true);
+		facesContext.addMessage(null, new FacesMessage("Comic Saved!"));
 		System.out.println(product.getTitle()+" saved!");
+		return "/lista?faces-redirect=true";
 
 		
 	}

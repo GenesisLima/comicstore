@@ -15,8 +15,7 @@ public class AuthorDAO {
 
 	public List<Author> list() {
 		return manager.createQuery(
-				"select a from Author a order by a.name asc", Author.class)
-				.getResultList();
+				"select a from Author a order by a.name asc", Author.class).getResultList();
 	}
 	
 }
