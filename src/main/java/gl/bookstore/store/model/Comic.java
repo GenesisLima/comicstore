@@ -1,15 +1,21 @@
 package gl.bookstore.store.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
-public class Comic {
+public class Comic implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -17,7 +23,11 @@ public class Comic {
 	private	String	title;
 	private	String	description;
 	private int	numberOfPages;
+	@DecimalMin("20")
 	private	BigDecimal	price;
+	@ManyToMany
+	@NotNull
+	private List<Author> authors = new ArrayList<>();
 	
 	public Integer getId() {
 		return id;
@@ -48,6 +58,19 @@ public class Comic {
 	}
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+	
+	
+	public List<Author> getAuthors() {
+		return authors;
+	}
+	
+	public void setAuthors(List<Author> authors) {
+		this.authors = authors;
+	}
+	
+	public void add(Author author) {
+		authors.add(author);
 	}
 	
 	
