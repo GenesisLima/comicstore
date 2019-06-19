@@ -6,11 +6,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import gl.bookstore.store.dao.AuthorDAO;
 import gl.bookstore.store.dao.ComicDAO;
+import gl.bookstore.store.infra.FacesContextProducer;
+import gl.bookstore.store.infra.MessageHelper;
 import gl.bookstore.store.model.Author;
 import gl.bookstore.store.model.Comic;
 
@@ -27,19 +28,22 @@ public class AdminComicsBean {
 	@Inject
 	private ComicDAO comicDAO;
 	
+	@Inject
+	private FacesContextProducer facesContext;
+	
+	@Inject
+	MessageHelper messageHelper;
+	
 	
 	public String save() {
 		populateBookAuthor();
 		System.out.println("Saving "+product.getTitle()+" book!");
 		comicDAO.save(product);
-		clearObjects();
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		facesContext.getExternalContext().getFlash().setKeepMessages(true);
-		facesContext.addMessage(null, new FacesMessage("Comic Saved!"));
+		clearObjects();		
+		facesContext.get().getExternalContext().getFlash().setKeepMessages(true);	
+		messageHelper.addFlash(new FacesMessage("Comic Successfully Saved!"));
 		System.out.println(product.getTitle()+" saved!");
-		return "/lista?faces-redirect=true";
-
-		
+		return "/lista?faces-redirect=true";		
 	}
 
 	
@@ -47,7 +51,7 @@ public class AdminComicsBean {
 	public	void	loadObjects(){								
 	this.authors	=	authorDAO.list();
 	System.out.println("AUTORES: "+authors);
-					}
+	}
 	
 	
 	public Comic getProduct() {

@@ -24,8 +24,7 @@ public class AdminListComicsBean {
 		
 	}
 
-	public List<Comic> getComics() {
-		System.out.println("COMICS "+comics);
+	public List<Comic> getComics() {	
 		return comics;
 	}
 	
