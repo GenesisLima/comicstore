@@ -32,17 +32,31 @@ public class AdminComicsBean {
 	private FacesContextProducer facesContext;
 	
 	@Inject
-	MessageHelper messageHelper;
+	MessageHelper messagesHelper;
 	
 	
 	public String save() {
 		populateBookAuthor();
-		System.out.println("Saving "+product.getTitle()+" book!");
+		if(product.getTitle()==null	||	
+				product.getTitle().trim().isEmpty()){
+				facesContext.get().addMessage(null, new FacesMessage("titulo	obrigatorio"));
+}
+if(product.getDescription()==null	||	
+				product.getDescription().trim().isEmpty()){
+	           facesContext.get().addMessage(null,new FacesMessage("descrição	obrigatoria"));
+				
+}
+
+				if(facesContext.get().getMessages().hasNext()){
+					//volta	para	a	mesma	tela
+					return "/livros/form";
+													}
+				
+				
 		comicDAO.save(product);
 		clearObjects();		
 		facesContext.get().getExternalContext().getFlash().setKeepMessages(true);	
-		messageHelper.addFlash(new FacesMessage("Comic Successfully Saved!"));
-		System.out.println(product.getTitle()+" saved!");
+		messagesHelper.addFlash(new FacesMessage("Comic Successfully Saved!"));
 		return "/lista?faces-redirect=true";		
 	}
 
@@ -50,7 +64,6 @@ public class AdminComicsBean {
 	@PostConstruct
 	public	void	loadObjects(){								
 	this.authors	=	authorDAO.list();
-	System.out.println("AUTORES: "+authors);
 	}
 	
 	
@@ -82,6 +95,7 @@ public class AdminComicsBean {
 		this.product = new Comic();
 		this.selectedAuthorsIds.clear();
 	}
+	
 	
 	
 	

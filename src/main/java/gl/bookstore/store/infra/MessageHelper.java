@@ -1,9 +1,11 @@
 package gl.bookstore.store.infra;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+@ApplicationScoped
 public class MessageHelper {
 
 	
@@ -15,5 +17,7 @@ public class MessageHelper {
 	facesContext.getExternalContext().getFlash().setKeepMessages(true);
 	facesContext.addMessage(null,facesMessage);
 									}
+
+
 	
 }
